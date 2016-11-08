@@ -8,3 +8,5 @@
 
 http://fir.im/yec8
 
+https://beta.bugly.qq.com/ajn2
+
