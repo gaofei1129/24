@@ -31,14 +31,12 @@ import com.example.eli.a24dian.utils.CustomToast;
 import com.example.eli.a24dian.utils.PreferencesUtils;
 import com.example.eli.a24dian.utils.Utils;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXImageObject;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -269,30 +267,20 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     * 分享图片到微信
+     * 分享网页到微信
      */
     private void toWeixin() {
-        String path = SDCARD_ROOT + "/test.png";
-        File file = new File(path);
-        if (!file.exists()) {
-            Toast.makeText(MainActivity.this, "失败" + path, Toast.LENGTH_LONG).show();
-            return;
-        }
-        WXImageObject imgObj = new WXImageObject();
-        imgObj.setImagePath(path);
-
-        WXMediaMessage msg = new WXMediaMessage();
-        msg.mediaObject = imgObj;
-
-        Bitmap bmp = BitmapFactory.decodeFile(path);
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
-        bmp.recycle();
-        msg.thumbData = Utils.bmpToByteArray(thumbBmp, true);
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = "http://fir.im/yec8";
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = "我在益智游戏24里面答对了 " + PreferencesUtils.getSucceedNum(this) + " 道题，一起来玩玩吧!";
+        msg.description = "我在益智游戏24里面答对了 " + PreferencesUtils.getSucceedNum(this) + " 道题，一起来玩玩吧!";
+        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.icon_main);
+        msg.thumbData = Utils.bmpToByteArray(thumb, true);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = buildTransaction("img");
+        req.transaction = buildTransaction("webpage");
         req.message = msg;
-        //0好友，1朋友圈
         req.scene = 1;
         api.sendReq(req);
     }
@@ -300,37 +288,6 @@ public class MainActivity extends BaseActivity {
     private String buildTransaction(final String type) {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
-
-    /**
-     * 截屏求助答案
-     */
-    private void getBitmap(View v) {
-
-        String fname = SDCARD_ROOT + "/test.png";
-
-        View view = v.getRootView();
-
-        view.setDrawingCacheEnabled(true);
-
-        view.buildDrawingCache();
-
-        Bitmap bitmap = view.getDrawingCache();
-
-        if (bitmap != null) {
-            System.out.println("bitmap got !");
-            try {
-                FileOutputStream out = new FileOutputStream(fname);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-
-                System.out.println("file " + fname + "output done.");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("bitmap is NULL !");
-        }
-    }
-
 
     public static boolean stringArrayCompare(String[] b, String[] c) {
         if (c == null || b.length != c.length) {
@@ -382,7 +339,7 @@ public class MainActivity extends BaseActivity {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBitmap(v);
+//                getBitmap(v);
                 toWeixin();
                 replace();
                 popupSucessWindow.dismiss();
@@ -524,7 +481,7 @@ public class MainActivity extends BaseActivity {
                         break;
                     }
                 } else {
-                    CustomToast.showToast(this, "无解!");
+                    CustomToast.showToast(this, "无解,请刷新!");
                 }
                 break;
             case R.id.txt_new:

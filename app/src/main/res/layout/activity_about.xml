@@ -8,15 +8,28 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:text="用加、减、乘、除（可加括号）把给出的数 算成24．每个数必须用一次且只能用一次（可能无解）"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:id="@+id/line_layout"
-            android:layout_width="350dp"
-            android:layout_height="450dp"
-            android:layout_centerInParent="true"
+            android:layout_width="300dp"
+            android:layout_height="400dp"
             android:layout_margin="20dp"
             android:background="@drawable/popup_bg"
             android:gravity="center"
@@ -50,5 +63,5 @@
                 android:textSize="24sp" />
 
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>
