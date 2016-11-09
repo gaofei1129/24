@@ -4,7 +4,8 @@
 
 一起来玩玩吧！
 
-![](https://github.com/gaofei1129/24/blob/master/screenshot/Screenshot_2016-11-08-22-11-59.jpeg)
+<img src="https://github.com/gaofei1129/24/blob/master/screenshot/Screenshot_2016-11-08-22-11-59.jpeg" width=256 height=480 />
+
 ![](https://github.com/gaofei1129/24/blob/master/screenshot/Screenshot_2016-11-08-22-12-09.jpeg)
 
 下载地址：
